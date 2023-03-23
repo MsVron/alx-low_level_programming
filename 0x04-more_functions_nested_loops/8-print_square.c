@@ -1,21 +1,21 @@
-#include"main.h"
+#include "main.h"
 
 /**
- * print_square - print a square using the character #
- *
- * @size: is the size of the square
- *
- * Return: Always 0 (Success)
-*/
+ * print_square - prints a diagonal.
+ * @n : the length of squares
+ * Return: 0
+ */
 
-void print_square(int size)
+void print_square(int n)
 {
-	int row, column;
+	int i, j;
 
-	for (row = 1; row <= size; ++row)
+	for (i = 0; i < n; i++)
 	{
-		for (column = 1; column <= size; ++column)
+		for (j = 0; j < n; j++)
 			_putchar('#');
 		_putchar('\n');
 	}
+	if (n <= 0)
+		_putchar('\n');
 }
