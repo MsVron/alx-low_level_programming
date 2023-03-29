@@ -7,44 +7,53 @@
 #include <string.h>
 
 /**
- * _isdigit - checks if a character is a digit
+ * _isdigit - checks if a character is a digit (0 through 9).
+ *
  * @c: character to check
  *
- * Return: 1 if c is a digit, 0 otherwise
+ * Return: 1 if c is a digit, 0 otherwise.
  */
-int _isdigit(int c)
+int _isdigit(char c)
 {
 	return (c >= '0' && c <= '9');
 }
 
 /**
- * _atoi - convert a string to an integer
- * @s: string to convert
+ * _atoi - converts a string to an integer.
  *
- * Return: integer value of string
+ * @s: pointer to the string to convert
+ *
+ * Return: the converted integer.
  */
 int _atoi(char *s)
 {
-	int res = 0;
-	int sign = 1;
-	int i = 0;
+	int i, sign, num;
 
-	while (s[i] != '\0')
+	i = 0;
+	sign = 1;
+	num = 0;
+
+	while (s[i] == ' ')
+		i++;
+
+	if (s[i] == '-')
 	{
-		if (s[i] == '-')
-		{
-			sign *= -1;
-		}
-		else if (_isdigit(s[i]))
-		{
-			res = res * 10 + (s[i] - '0');
-		}
-		else if (res > 0)
-		{
-			break;
-		}
+		sign = -1;
 		i++;
 	}
 
-	return (sign * res);
+	for (; _isdigit(s[i]); i++)
+	{
+		if (num > INT_MAX / 10 || (num == INT_MAX / 10 && (s[i] - '0') > INT_MAX % 10))
+		{
+			if (sign == 1)
+				return INT_MAX;
+			else
+				return INT_MIN;
+		}
+
+		num = (num * 10) + (s[i] - '0');
+	}
+
+	return (num * sign);
 }
