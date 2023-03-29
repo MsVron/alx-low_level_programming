@@ -1,24 +1,26 @@
 /**
- * strncat - concatenate two strings, limiting the number of bytes from src
+ * _strncat - concatenate two strings, limiting the number of bytes to copy.
  *
- * @dest: pointer to destination string
- * @src: pointer to source string
- * @n: maximum number of bytes to concatenate from src
+ * @dest: pointer to the destination string
+ * @src: pointer to the source string
+ * @n: maximum number of bytes to concatenate
  *
- * Return: pointer to dest
+ * Return: pointer to the resulting string @dest
  */
-char *strncat(char *dest, char *src, int n)
+char *_strncat(char *dest, const char *src, size_t n)
 {
-        int dest_len = 0;
-        int i;
+    size_t dest_len = 0;
+    
+    // Find the end of dest string
+    while (dest[dest_len] != '\0')
+        dest_len++;
 
-        while (dest[dest_len] != '\0')
-                dest_len++;
+    // Append at most n bytes from src to dest
+    for (size_t i = 0; i < n && src[i] != '\0'; i++)
+        dest[dest_len + i] = src[i];
 
-        for (i = 0; i < n && src[i] != '\0'; i++)
-                dest[dest_len + i] = src[i];
+    // Add a terminating null byte to the end of dest
+    dest[dest_len + n] = '\0';
 
-        dest[dest_len + i] = '\0';
-
-        return dest;
+    return dest;
 }
