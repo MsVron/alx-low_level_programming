@@ -1,23 +1,24 @@
-#include "holberton.h"
 #include <stdio.h>
 
 /**
- * main - check the code for ALX School students.
+ * _strcat - Concatenates two strings.
+ * @dest: Pointer to destination string.
+ * @src: Pointer to source string.
+ * @n: Maximum number of characters to concatenate from the source string.
  *
- * Return: Always 0.
-*/
-
-int main(void)
+ * Return: A pointer to the resulting string dest.
+ */
+char *_strcat(char *dest, const char *src, size_t n)
 {
-	char s1[98] = "Hello ";
-	char s2[] = "World!\n";
-	char *ptr;
+	size_t dest_len = 0;
 
-	printf("%s\n", s1);
-	printf("%s", s2);
-	ptr = _strcat(s1, s2);
-	printf("%s", s1);
-	printf("%s", s2);
-	printf("%s", ptr);
-	return (0);
+	while (dest[dest_len] != '\0')
+		dest_len++;
+
+	for (size_t i = 0; i < n && src[i] != '\0'; i++)
+		dest[dest_len + i] = src[i];
+
+	dest[dest_len + n] = '\0';
+
+	return dest;
 }
