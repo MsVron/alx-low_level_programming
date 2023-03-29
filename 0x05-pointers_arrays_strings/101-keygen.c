@@ -4,36 +4,42 @@
 #include <math.h>
 
 /**
- * main - print password.
+ * _atoi - convert a string to an integer.
  *
- * Return: 0.
+ * @s: the string to convert.
+ *
+ * Return: the integer value of the string.
  */
 
-int main(void)
+int _atoi(char *s)
 {
-	int ascii = 2772, i = 0, j, random;
-	char password[100];
-	time_t t;
+	int sign = 1, value = 0;
+	char *p = s;
 
-	srand((int) time(&t));
-	while (ascii > 126)
+	/* skip leading whitespace */
+	while (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r' || *p == '\f' || *p == '\v')
 	{
-		random = rand() % 126;
-		password[i] = random;
-		ascii -= random;
-		i++;
+		p++;
 	}
-	if (ascii > 0)
-		password[i] = ascii;
-	else
-	{
-		i--;
-	}
-	
 
-	for (j = 0; j <= i; j++)
+	/* handle sign */
+	if (*p == '-')
 	{
-		printf("%c", password[j]);
+		sign = -1;
+		p++;
 	}
-	return (0);
+	else if (*p == '+')
+	{
+		sign = 1;
+		p++;
+	}
+
+	/* process digits */
+	while (*p >= '0' && *p <= '9')
+	{
+		value = value * 10 + (*p - '0');
+		p++;
+	}
+
+	return sign * value;
 }
