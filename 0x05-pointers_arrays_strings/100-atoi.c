@@ -1,40 +1,50 @@
-#include "main.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+#include <limits.h>
+#include <ctype.h>
+#include <string.h>
 
 /**
- * _atoi - converts a string to an integer
- * @s: the string to convert
+ * _isdigit - checks if a character is a digit
+ * @c: character to check
  *
- * Return: the integer value of the string
+ * Return: 1 if c is a digit, 0 otherwise
+ */
+int _isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
+}
+
+/**
+ * _atoi - convert a string to an integer
+ * @s: string to convert
+ *
+ * Return: integer value of string
  */
 int _atoi(char *s)
 {
-    int sign = 1;
-    int result = 0;
-    int i = 0;
+	int res = 0;
+	int sign = 1;
+	int i = 0;
 
-    /* skip leading white space */
-    while (s[i] == ' ')
-    {
-        i++;
-    }
+	while (s[i] != '\0')
+	{
+		if (s[i] == '-')
+		{
+			sign *= -1;
+		}
+		else if (_isdigit(s[i]))
+		{
+			res = res * 10 + (s[i] - '0');
+		}
+		else if (res > 0)
+		{
+			break;
+		}
+		i++;
+	}
 
-    /* check for sign */
-    if (s[i] == '-')
-    {
-        sign = -1;
-        i++;
-    }
-    else if (s[i] == '+')
-    {
-        i++;
-    }
-
-    /* convert digits to integer */
-    while (s[i] >= '0' && s[i] <= '9')
-    {
-        result = (result * 10) + (s[i] - '0');
-        i++;
-    }
-
-    return result * sign;
+	return (sign * res);
 }
