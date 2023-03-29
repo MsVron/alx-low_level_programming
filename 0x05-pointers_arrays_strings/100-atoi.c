@@ -6,40 +6,45 @@
 #include <ctype.h>
 #include <string.h>
 
-int _isdigit(char c)
+/**
+ * _isdigit - checks if a character is a digit
+ * @c: character to check
+ *
+ * Return: 1 if c is a digit, 0 otherwise
+ */
+int _isdigit(int c)
 {
-    return (c >= '0' && c <= '9');
+	return (c >= '0' && c <= '9');
 }
 
+/**
+ * _atoi - convert a string to an integer
+ * @s: string to convert
+ *
+ * Return: integer value of string
+ */
 int _atoi(char *s)
 {
-    int i, sign, num;
+	int res = 0;
+	int sign = 1;
+	int i = 0;
 
-    i = 0;
-    sign = 1;
-    num = 0;
+	while (s[i] != '\0')
+	{
+		if (s[i] == '-')
+		{
+			sign *= -1;
+		}
+		else if (_isdigit(s[i]))
+		{
+			res = res * 10 + (s[i] - '0');
+		}
+		else if (res > 0)
+		{
+			break;
+		}
+		i++;
+	}
 
-    while (s[i] == ' ')
-        i++;
-
-    if (s[i] == '-')
-    {
-        sign = -1;
-        i++;
-    }
-
-    for (; _isdigit(s[i]); i++)
-    {
-        if (num > INT_MAX / 10 || (num == INT_MAX / 10 && (s[i] - '0') > INT_MAX % 10))
-        {
-            if (sign == 1)
-                return INT_MAX;
-            else
-                return INT_MIN;
-        }
-
-        num = (num * 10) + (s[i] - '0');
-    }
-
-    return (num * sign);
+	return (sign * res);
 }
