@@ -39,7 +39,7 @@ int _atoi(char *s)
         {
             int digit = s[i] - '0';
 
-            // Check for integer overflow before performing arithmetic operations
+            /* Check for integer overflow before performing arithmetic operations */
             if (res > INT_MAX / 10 || (res == INT_MAX / 10 && digit > INT_MAX % 10))
             {
                 return (sign == 1) ? INT_MAX : INT_MIN;
