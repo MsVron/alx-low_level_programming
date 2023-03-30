@@ -1,54 +1,59 @@
 /**
- * infinite_add - adds two numbers
- * @n1: first number
- * @n2: second number
- * @r: buffer to store result
- * @size_r: buffer size
- * Return: pointer to result, or 0 if result cannot be stored in r
+ * infinite_add - Adds two numbers
+ * @n1: The first number to add
+ * @n2: The second number to add
+ * @r: The buffer to store the result
+ * @size_r: The size of the buffer
+ *
+ * Return: A pointer to the result, or 0 if the buffer is too small
  */
 char *infinite_add(char *n1, char *n2, char *r, int size_r)
 {
-	int len1, len2, i, j, sum, carry;
+    int i = 0, j = 0, k = 0, carry = 0, sum = 0, len1 = 0, len2 = 0;
 
-	/* Find lengths of n1 and n2 */
-	for (len1 = 0; n1[len1]; len1++)
-		;
-	for (len2 = 0; n2[len2]; len2++)
-		;
+    while (*(n1 + len1))
+        len1++;
+    while (*(n2 + len2))
+        len2++;
 
-	/* Check if result can fit in buffer */
-	if (len1 > size_r - 1 || len2 > size_r - 1)
-		return (0);
+    if (len1 + 1 > size_r || len2 + 1 > size_r)
+        return (0);
 
-	/* Add digits from right to left */
-	for (i = len1 - 1, j = len2 - 1, carry = 0; i >= 0 || j >= 0 || carry; i--, j--)
-	{
-		sum = carry;
-		if (i >= 0)
-			sum += n1[i] - '0';
-		if (j >= 0)
-			sum += n2[j] - '0';
+    len1--;
+    len2--;
 
-		if (sum > 9)
-		{
-			carry = 1;
-			sum -= 10;
-		}
-		else
-			carry = 0;
+    while (len1 >= 0 || len2 >= 0)
+    {
+        sum = carry;
+        if (len1 >= 0)
+            sum += *(n1 + len1--) - '0';
+        if (len2 >= 0)
+            sum += *(n2 + len2--) - '0';
 
-		/* Store digit in buffer */
-		r[i + j + 1] = sum + '0';
-	}
-	r[len1 + len2] = '\0';
+        *(r + k++) = sum % 10 + '0';
+        carry = sum / 10;
+    }
 
-	/* Reverse result in buffer */
-	for (i = 0, j = len1 + len2 - 1; i < j; i++, j--)
-	{
-		char temp = r[i];
-		r[i] = r[j];
-		r[j] = temp;
-	}
+    if (carry)
+        *(r + k++) = carry + '0';
 
-	return (r);
+    if (k > size_r)
+        return (0);
+
+    *(r + k) = '\0';
+
+    i = 0;
+    j = k - 1;
+
+    while (i < j)
+    {
+        *(r + i) ^= *(r + j);
+        *(r + j) ^= *(r + i);
+        *(r + i) ^= *(r + j);
+
+        i++;
+        j--;
+    }
+
+    return (r);
 }
