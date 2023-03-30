@@ -1,54 +1,65 @@
+#include "main.h"
+/**
+  * _strlen - Returns the length of a string
+  * @s: String to count
+  *
+  * Return: String length
+  */
+
+int _strlen(char *s)
+{
+	int length = 0;
+
+	for (; *s != '\0'; s++)
+		length++;
+	return (length);
+}
 /**
  * infinite_add - adds two numbers
- * @n1: first number
- * @n2: second number
- * @r: buffer to store result
- * @size_r: buffer size
- * Return: pointer to result, or 0 if result cannot be stored in r
+ * @n1: number one argument for *infinite_add
+ * @n2: number two argument for *infinite_add
+ * @r: buffer that the function will use to store the result
+ *    argument for *infinite_add
+ * @size_r: buffer size argument for *infinite_add
+ * Return: the pointer to dest
  */
+
 char *infinite_add(char *n1, char *n2, char *r, int size_r)
 {
-	int len1, len2, i, j, sum, carry;
+	int l1 = _strlen(n1), l2 = _strlen(n2), n1_int, n2_int, re = 0, big, add;
 
-	/* Find lengths of n1 and n2 */
-	for (len1 = 0; n1[len1]; len1++)
-		;
-	for (len2 = 0; n2[len2]; len2++)
-		;
-
-	/* Check if result can fit in buffer */
-	if (len1 > size_r - 1 || len2 > size_r - 1)
+	if (l1 >= l2)
+		big = l1;
+	else
+		big = l2;
+	if (size_r <= big + 1)
 		return (0);
-
-	/* Add digits from right to left */
-	for (i = len1 - 1, j = len2 - 1, carry = 0; i >= 0 || j >= 0 || carry; i--, j--)
+	*(r + (big + 1)) = '\0';
+	l1--, l2--, size_r--;
+	n1_int = *(n1 + l1) - 48, n2_int = *(n2 + l2) - 48;
+	while (big >= 0)
 	{
-		sum = carry;
-		if (i >= 0)
-			sum += n1[i] - '0';
-		if (j >= 0)
-			sum += n2[j] - '0';
-
-		if (sum > 9)
-		{
-			carry = 1;
-			sum -= 10;
-		}
+		add = n1_int + n2_int + re;
+		if (add >= 10)
+			re = add / 10;
 		else
-			carry = 0;
-
-		/* Store digit in buffer */
-		r[i + j + 1] = sum + '0';
+			re = 0;
+		if (add > 0)
+			*(r + big) = (add % 10) + 48;
+		else
+			*(r + big) = '0';
+		if (l1 > 0)
+			l1--, n1_int = *(n1 + l1) - 48;
+		else
+			n1_int = 0;
+		if (l2 > 0)
+			l2--, n2_int = *(n2 + l2) - 48;
+		else
+			n2_int = 0;
+		big--, size_r--;
 	}
-	r[len1 + len2] = '\0';
-
-	/* Reverse result in buffer */
-	for (i = 0, j = len1 + len2 - 1; i < j; i++, j--)
-	{
-		char temp = r[i];
-		r[i] = r[j];
-		r[j] = temp;
-	}
-
-	return (r);
+	if (*(r) == '0')
+		return (r + 1);
+	else
+		return (r);
 }
