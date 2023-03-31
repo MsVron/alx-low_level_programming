@@ -53,7 +53,7 @@ char *infinite_add(char *n1, char *n2, char *r, int size_r)
     }
 
     /* Remove leading zeros */
-    while (*r == '0' && *(r+1) != '\0')
+    while (*r == '0' && *(r + 1) != '\0')
         r++;
 
     return (r);
