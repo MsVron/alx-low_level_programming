@@ -1,27 +1,30 @@
 /**
- * _strchr - a function that locates a character in a string
+ * _strpbrk - a function that searches a
+ *            string for any of a set of bytes.
  *
- * @s: pointer to our string array input
- * @c: character to locate from input array
+ * @s: pointer to input string
+ * @accept: pointer to string we
+ *         searching for in @s
  *
- * Return: first occurence of charatcer or null if not found
+ * Return: pointer to the bytes in @s
+ *         or NULL if no such byte is found
 */
 
-char *_strchr(char *s, char c)
+char *_strpbrk(char *s, char *accept)
 {
-	while (*s != '\0')
+	int i, j;
+
+	i = 0;
+	while (s[i] != '\0')
 	{
-		if (*s == c)
-			return (s);
-		s++;
+		j = 0;
+		while (accept[j] != '\0')
+		{
+			if (s[i] == accept[j])
+				return (s + i);
+			j++;
+		}
+		i++;
 	}
-	/**
-	 * if c is '\0', you should return
-	 * the pointer to the '\0' of the
-	 * string s
-	*/
-	if (*s == c)
-		return (s);
-	/*return null if not found*/
 	return ('\0');
 }
