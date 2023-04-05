@@ -1,4 +1,3 @@
-#include "main.h"
 #include <stdio.h>
 
 /**
@@ -7,13 +6,14 @@
  *
  * Return: void
  */
-
 void _print_rev_recursion(char *s)
 {
 	if (*s == '\0') /* Base case */
 		return;
 
-	_print_rev_recursion(s + 1); /* Recursively call the function with the next character */
+	/* Recursively call the function with the next character */
+	_print_rev_recursion(s + 1);
 
-	putchar(*s); /* Print the current character */
+	/* Print the current character */
+	putchar(*s);
 }
