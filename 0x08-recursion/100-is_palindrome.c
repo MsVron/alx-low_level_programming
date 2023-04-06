@@ -1,6 +1,17 @@
 #include "main.h"
 
 /**
+ * Helper function to get the length of a string recursively
+ */
+int get_length(char *s, int len)
+{
+    if (*s == '\0')
+        return len;
+    else
+        return get_length(s + 1, len + 1);
+}
+
+/**
  * is_palindrome - Checks if a string is a palindrome recursively
  *
  * @s: The string to check
@@ -9,18 +20,7 @@
  */
 int is_palindrome(char *s)
 {
-    int len = 0;
-
-    /* Helper function to get the length of the string */
-    int get_length(char *s, int len)
-    {
-        if (*s == '\0')
-            return len;
-        else
-            return get_length(s + 1, len + 1);
-    }
-
-    len = get_length(s, 0);
+    int len = get_length(s, 0);
 
     /* Base case: a string of length 0 or 1 is a palindrome */
     if (len <= 1)
