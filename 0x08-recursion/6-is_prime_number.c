@@ -42,10 +42,11 @@ int is_prime_number(int n)
  */
 int is_prime_helper(int n, int divisor)
 {
-	if (n % divisor == 0) /* n is divisible by divisor, so it's not prime */
+	/* n is divisible by divisor, so it's not prime */
+	if (n % divisor == 0)
 		return (0);
-
-	if (divisor * divisor > n) /* n is not divisible by any integer up to its square root, so it's prime */
+	/* n is not divisible by any integer up to its square root, so it's prime */
+	if (divisor * divisor > n)
 		return (1);
 
 	return (is_prime_helper(n, divisor + 2)); /* Try the next odd divisor */
