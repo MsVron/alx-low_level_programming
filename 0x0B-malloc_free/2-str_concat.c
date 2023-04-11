@@ -9,34 +9,42 @@
  * Return: Pointer to newly allocated space in memory containing concatenated
  * string, NULL on failure
  */
+
 char *str_concat(char *s1, char *s2)
 {
-    char *concat_str;
-    int s1_len = 0, s2_len = 0, i, j;
+	int a = 0, b = 0;
+	int i, j;
+	char *s;
 
-    if (s1 == NULL)
-        s1 = "";
+	if (s1 == NULL)
+		s1 = "";
 	if (s2 == NULL)
 		s2 = "";
 
-	while (s1[s1_len])
-		s1_len++;
+	/*find length of str1 & str2*/
+	while (s1[a] != '\0')
+		a++;
+	while (s2[b] != '\0')
+		b++;
 
-	while (s2[s2_len])
-		s2_len++;
+	/*+1 for our end of string character*/
+	s = malloc((a * sizeof(char)) + ((b + 1) * sizeof(char)));
 
-	concat_str = malloc(sizeof(char) * (s1_len + s2_len + 1));
-
-	if (concat_str == NULL)
+	if (s == NULL)
 		return (NULL);
 
-	for (i = 0; s1[i]; i++)
-		concat_str[i] = s1[i];
+	/*add the first string to array s*/
+	for (i = 0; s1[i] != '\0'; i++)
+		s[i] = s1[i];
+	/*add the second string to array s*/
+	for (j = 0; s2[j] != '\0'; j++)
+	{
+		s[i] = s2[j];
+		i++;
+	}
 
-	for (j = 0; s2[j]; j++)
-		concat_str[i + j] = s2[j];
+	/*null terminate our new string*/
+	s[i] = '\0';
 
-	concat_str[i + j] = '\0';
-
-	return (concat_str);
+	return (s);
 }
