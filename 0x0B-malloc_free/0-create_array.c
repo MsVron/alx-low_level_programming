@@ -1,13 +1,14 @@
 #include <stdlib.h>
 
 /**
- * create_array - creates an array of chars, and initializes it with a
- * specific char.
- * @size: size of array to create
- * @c: character to initialize the array with
+ * create_array - creates an array of chars and initializes it
+ * with a specific char
+ * @size: the size of the array
+ * @c: the specific char to initialize the array with
  *
  * Return: pointer to the array, or NULL if it fails
  */
+
 char *create_array(unsigned int size, char c)
 {
         unsigned int i;
@@ -16,7 +17,7 @@ char *create_array(unsigned int size, char c)
         if (size == 0)
                 return (NULL);
 
-        arr = malloc(sizeof(char) * size);
+        arr = malloc(size * sizeof(char));
 
         if (arr == NULL)
                 return (NULL);
