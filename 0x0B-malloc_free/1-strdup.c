@@ -8,26 +8,28 @@
  * Return: pointer to the duplicated string or NULL if str is NULL or if
  *         insufficient memory was available.
  */
+
 char *_strdup(char *str)
 {
-    char *dup_str;
-    unsigned int len = 0, i;
+	int i = 0, l = 0;
+	char *s;
 
-    if (str == NULL)
-        return (NULL);
+	if (str == NULL)
+		return (NULL);
 
-    /* calculate length of str */
-    while (str[len])
-        len++;
+	/*calculate size of str*/
+	while (str[l] != '\0')
+		l++;
 
-    dup_str = malloc(sizeof(char) * (len + 1));
+	s = malloc((l + 1) * sizeof(char));
+	if (s == NULL)
+		return (NULL);
 
-    if (dup_str == NULL)
-        return (NULL);
+	while (str[i] != '\0')
+	{
+		s[i] = str[i];
+		i++;
+	}
 
-    /* copy str to dup_str */
-    for (i = 0; i <= len; i++)
-        dup_str[i] = str[i];
-
-    return (dup_str);
+	return (s);
 }
