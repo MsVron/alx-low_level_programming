@@ -8,7 +8,7 @@ void free_words(char **words, int count);
  * @str: string to split
  *
  * Return: pointer to an array of strings (words)
- *         NULL if str == NULL or str == ""
+ *         NULL if str == NULL or str == "" or only contains spaces
  *         NULL if memory allocation fails
  */
 char **strtow(char *str)
@@ -17,6 +17,15 @@ char **strtow(char *str)
 	int i, j, count = 0, len = 0, start, end;
 
 	if (str == NULL || *str == '\0')
+		return (NULL);
+
+	/* Check if str contains only spaces */
+	for (i = 0; str[i]; i++)
+	{
+		if (str[i] != ' ')
+			break;
+	}
+	if (str[i] == '\0')
 		return (NULL);
 
 	for (i = 0; str[i]; i++)
