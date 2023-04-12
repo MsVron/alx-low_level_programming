@@ -2,64 +2,71 @@
 #include <string.h>
 
 /**
- * strtow - Splits a string into words.
- * @str: The string to split.
+ * strtow - splits a string into words
+ * @str: string to split
  *
- * Return: Pointer to an array of strings (words), or NULL if fails.
+ * Return: pointer to an array of strings (words)
+ *         NULL if str == NULL or str == ""
+ *         NULL if memory allocation fails
  */
 char **strtow(char *str)
 {
-	int i, j, k, len = 0, wc = 0;
-	char **w, *p;
+	char **words, *tmp;
+	int i, j, count = 0, len = 0, start, end;
 
 	if (str == NULL || *str == '\0')
 		return (NULL);
 
 	for (i = 0; str[i]; i++)
-		if (str[i] != ' ' && (str[i + 1] == ' ' || str[i + 1] == '\0'))
-			wc++;
-
-	if (wc == 0)
-		return (NULL);
-
-	w = malloc(sizeof(char *) * (wc + 1));
-
-	if (w == NULL)
-		return (NULL);
-
-	for (i = 0, k = 0; k < wc; k++)
-        {
-		while (str[i] == ' ')
-			i++;
-
-		for (j = i; str[j] != ' ' && str[j] != '\0'; j++)
-			len++;
-
-		w[k] = malloc(sizeof(char) * (len + 1));
-
-		if (w[k] == NULL)
-		{
-			for (k--; k >= 0; k--)
-				free(w[k]);
-
-			free(w);
-			return (NULL);
-		}
-
-		p = w[k];
-
-		while (*str != ' ' && *str != '\0')
-		{
-			*p = *str;
-			p++;
-			str++;
-		}
-
-		*p = '\0';
-		len = 0;
+	{
+		if (str[i] != ' ' && (i == 0 || str[i - 1] == ' '))
+			count++;
 	}
 
-	w[k] = NULL;
+	words = malloc(sizeof(char *) * (count + 1));
 
-	return (w);
+	if (words == NULL)
+		return (NULL);
+
+	for (i = 0, j = 0; str[i]; i++)
+	{
+		if (str[i] != ' ' && (i == 0 || str[i - 1] == ' '))
+		{
+			start = i;
+			while (str[i] && str[i] != ' ')
+				i++;
+			end = i - 1;
+			len = end - start + 1;
+			tmp = malloc(sizeof(char) * (len + 1));
+
+			if (tmp == NULL)
+			{
+				free_words(words, j);
+				return (NULL);
+			}
+
+			strncpy(tmp, &str[start], len);
+			tmp[len] = '\0';
+			words[j] = tmp;
+			j++;
+		}
+	}
+
+	words[j] = NULL;
+	return (words);
+}
+
+/**
+ * free_words - frees memory allocated for an array of strings
+ * @words: array of strings
+ * @count: number of strings in the array
+ */
+void free_words(char **words, int count)
+{
+	int i;
+
+	for (i = 0; i < count; i++)
+		free(words[i]);
+
+	free(words);
 }
