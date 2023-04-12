@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+void free_words(char **words, int count);
+
 /**
  * strtow - splits a string into words
  * @str: string to split
