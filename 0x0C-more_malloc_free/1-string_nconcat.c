@@ -1,3 +1,4 @@
+#include "main.h"
 /**
  * string_nconcat - concatenates two strings
  * @s1: pointer to string 1
@@ -5,8 +6,6 @@
  * @n: number of bytes to concatenate from s2
  * Return: pointer to the newly allocated space in memory
  */
-
-#include "holberton.h"
 
 char *string_nconcat(char *s1, char *s2, unsigned int n)
 {
