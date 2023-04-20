@@ -2,36 +2,42 @@
 #include <stdlib.h>
 
 /**
- * main - prints the opcodes of its own main function
- * @argc: the number of command line arguments
- * @argv: an array of command line argument strings
+ * main - Print opcodes
+ * @argc: Number of code code lines
+ * @argv: Arguments
  *
- * Return: Always 0
+ * Return: 0
  */
-int main(int argc, char **argv)
+
+int main(int argc, char *argv[])
 {
-    int i, num_bytes;
+	int i, b;
+	char *array;
 
-    if (argc != 2)
-    {
-        printf("Error\n");
-        return (1);
-    }
+	if (argc != 2)
+	{
+		printf("Error\n");
+		exit(1);
+	}
 
-    num_bytes = atoi(argv[1]);
+	b = atoi(argv[1]);
 
-    if (num_bytes < 0)
-    {
-        printf("Error\n");
-        return (2);
-    }
+	if (b < 0)
+	{
+		printf("Error\n");
+		exit(2);
+	}
 
-    char *main_opcodes = (char *)main;
+	array = (char *)main;
 
-    for (i = 0; i < num_bytes; i++)
-        printf("%02x ", (unsigned char)main_opcodes[i]);
-
-    printf("\n");
-
-    return (0);
+	for (i = 0; i < b; i++)
+	{
+		if (i == b - 1)
+		{
+			printf("%02hhx\n", array[i]);
+			break;
+		}
+		printf("%02hhx ", array[i]);
+	}
+	return (0);
 }
