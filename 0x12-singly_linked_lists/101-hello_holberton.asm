@@ -4,6 +4,8 @@ section .data
 section .text
     global _start
 
+    extern printf ; Declare printf as an external function
+
 _start:
     ; Prepare arguments for printf function
     mov rdi, msg ; First argument: pointer to the string
