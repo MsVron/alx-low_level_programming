@@ -12,7 +12,9 @@ void print_char(va_list args)
 {
 	char c = va_arg(args, int);
 	printf("%c", c);
+
 }
+
 
 /**
  * print_int - prints an int
@@ -24,7 +26,9 @@ void print_int(va_list args)
 {
 	int i = va_arg(args, int);
 	printf("%d", i);
+
 }
+
 
 /**
  * print_float - prints a float
@@ -36,7 +40,9 @@ void print_float(va_list args)
 {
 	double d = va_arg(args, double);
 	printf("%f", d);
+
 }
+
 
 /**
  * print_string - prints a string
