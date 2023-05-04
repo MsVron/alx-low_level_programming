@@ -7,7 +7,8 @@
  *@n: The value to be assigned to the new node.
  *
  *Return: If the function fails or if it is not possible to add the new node
- *        at index idx, return NULL. Otherwise, return a pointer to the new node.
+ *        at index idx, return NULL. 
+ * Otherwise, return a pointer to the new node.
  */
 listint_t *insert_nodeint_at_index(listint_t **head, unsigned int idx, int n)
 {
