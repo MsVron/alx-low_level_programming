@@ -18,14 +18,14 @@ size_t print_listint_safe(const listint_t *head)
 
 	while (head)
 	{
-		if (hash_table_set(ht, (void*) head, sizeof(head), "1"))
+		if (hash_table_set(ht, (void *) head, sizeof(head), "1"))
 		{
-			printf("[%p] %d\n", (void*) head, head->n);
+			printf("[%p] %d\n", (void *) head, head->n);
 			count++;
 		}
 		else
 		{
-			printf("->[%p] %d\n", (void*) head, head->n);
+			printf("->[%p] %d\n", (void *) head, head->n);
 			count++;
 			break;
 		}
