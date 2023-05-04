@@ -2,7 +2,6 @@
 #define LISTS_H
 
 #include <stdlib.h>
-#include <string.h>
 #include <stdio.h>
 
 /**
@@ -11,7 +10,7 @@
  * @next: points to the next node
  *
  * Description: singly linked list node structure
- * for Holberton project
+ * for ALX project
  */
 typedef struct listint_s
 {
@@ -22,7 +21,6 @@ typedef struct listint_s
 /**
  * struct hash_node_s - Node of a hash table
  * @key: The key, string
- * The key is unique in the HashTable
  * @value: The value corresponding to a key
  * @next: A pointer to the next node of the List
  */
@@ -46,6 +44,7 @@ typedef struct hash_table_s
     hash_node_t **array;
 } hash_table_t;
 
+/* functions */
 size_t print_listint(const listint_t *h);
 size_t listint_len(const listint_t *h);
 listint_t *add_nodeint(listint_t **head, const int n);
@@ -58,13 +57,15 @@ int sum_listint(listint_t *head);
 listint_t *insert_nodeint_at_index(listint_t **head, unsigned int idx, int n);
 int delete_nodeint_at_index(listint_t **head, unsigned int index);
 listint_t *reverse_listint(listint_t **head);
-size_t print_listint_safe(const listint_t *head);
-size_t free_listint_safe(listint_t **h);
-listint_t *find_listint_loop(listint_t *head);
+
 hash_table_t *hash_table_create(unsigned long int size);
 int hash_table_set(hash_table_t *ht, const char *key, const char *value);
 char *hash_table_get(const hash_table_t *ht, const char *key);
 void hash_table_print(const hash_table_t *ht);
 void hash_table_delete(hash_table_t *ht);
+
+/* task 13 */
+size_t print_listint_safe(const listint_t *head);
+size_t free_listint_safe(listint_t **h);
 
 #endif /* LISTS_H */
