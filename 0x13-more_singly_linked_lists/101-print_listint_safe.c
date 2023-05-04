@@ -1,38 +1,32 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "lists.h"
 
 /**
- *print_listint_safe - prints a listint_t linked list.
- *@head: A pointer to the head node of the list.
+ *print_listint_safe - Prints a listint_t linked list
+ *@head: Pointer to the head of the linked list
  *
- *Return: The number of nodes in the list.
+ *Return: The number of nodes in the list
  */
+
 size_t print_listint_safe(const listint_t *head)
 {
 	size_t count = 0;
-	hash_table_t *ht = NULL;
+	const listint_t *current = head;
 
-	ht = hash_table_create(1024, hash_djb2);
-
-	if (!ht)
-		exit(98);
-
-	while (head)
+	while (current != NULL)
 	{
-		if (hash_table_set(ht, (void *) head, sizeof(head), "1"))
+		count++;
+		printf("[%p] %d\n", (void *) current, current->n);
+
+		if (current <= current->next)
 		{
-			printf("[%p] %d\n", (void *) head, head->n);
-			count++;
-		}
-		else
-		{
-			printf("->[%p] %d\n", (void *) head, head->n);
-			count++;
-			break;
+			printf("->[%p] %d\n", (void *) current->next, current->next->n);
+			exit(98);
 		}
 
-		head = head->next;
+		current = current->next;
 	}
 
-	hash_table_delete(ht);
 	return (count);
 }
