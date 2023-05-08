@@ -36,7 +36,7 @@ typedef struct
 	uint16_t e_shentsize;
 	uint16_t e_shnum;
 	uint16_t e_shstrndx;
-} Elf64_Ehdr;
+} CustomElf64_Ehdr;
 
 
 #endif /* MAIN_H */
