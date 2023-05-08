@@ -18,7 +18,7 @@ void print_elf_header(const char *filename) {
     if (bytes_read != sizeof(Elf64_Ehdr))
         print_error("Invalid ELF header");
 
-    // Check ELF magic
+    /* Check ELF magic */
     if (elf_header.e_ident[0] != 0x7f || elf_header.e_ident[1] != 'E' ||
         elf_header.e_ident[2] != 'L' || elf_header.e_ident[3] != 'F')
         print_error("Not an ELF file");
