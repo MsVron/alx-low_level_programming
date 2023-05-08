@@ -9,10 +9,11 @@
  */
 ssize_t read_textfile(const char *filename, size_t letters)
 {
+	FILE *file;
+
 	if (filename == NULL)
 		return 0;
 
-	FILE *file;
 	char *buffer;
 	ssize_t bytesRead, bytesWritten;
 
