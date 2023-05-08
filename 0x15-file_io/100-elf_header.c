@@ -9,15 +9,15 @@ void print_error(const char *message)
 void print_elf_header(const char *filename)
 {
 	int fd = open(filename, O_RDONLY);
-	CustomElf64_Ehdr elf_header;
-	ssize_t bytes_read = read(fd, &elf_header, sizeof(CustomElf64_Ehdr));
+	Elf64_Ehdr elf_header;
+	ssize_t bytes_read = read(fd, &elf_header, sizeof(Elf64_Ehdr));
 	if (fd == -1)
 		print_error("Failed to open the file");
 
 	if (bytes_read == -1)
 		print_error("Failed to read the ELF header");
 
-	if (bytes_read != sizeof(CustomElf64_Ehdr))
+	if (bytes_read != sizeof(Elf64_Ehdr))
 		print_error("Invalid ELF header");
 
 	/* Check ELF magic */
