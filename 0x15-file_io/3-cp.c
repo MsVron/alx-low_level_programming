@@ -8,6 +8,36 @@ void print_error(const char *msg)
 {
 	dprintf(STDERR_FILENO, "%s\n", msg);
 }
+/**
+ *copy_file - Copies the content of a file to another file.
+ *@fd_from: The source file descriptor.
+ *@fd_to: The destination file descriptor.
+ *
+ *Return: 0 on success, or the appropriate exit code on failure.
+ */
+int copy_file(int fd_from, int fd_to)
+{
+	int bytes_read, bytes_written;
+	char buffer[BUFFER_SIZE];
+
+	while ((bytes_read = read(fd_from, buffer, BUFFER_SIZE)) > 0)
+	{
+		bytes_written = write(fd_to, buffer, bytes_read);
+		if (bytes_written != bytes_read)
+		{
+			print_error("Error: Can't write to file descriptor %d\n", fd_to);
+			return (99);
+		}
+	}
+
+	if (bytes_read == -1)
+	{
+		print_error("Error: Can't read from file descriptor %d\n", fd_from);
+		return (98);
+	}
+
+	return (0);
+}
 
 /**
  *cp - Copies the content of a file to another file.
@@ -18,8 +48,7 @@ void print_error(const char *msg)
  */
 int cp(const char *file_from, const char *file_to)
 {
-	int fd_from, fd_to, bytes_read, bytes_written;
-	char buffer[BUFFER_SIZE];
+	int fd_from, fd_to, ret;
 	struct stat st;
 
 	fd_from = open(file_from, O_RDONLY);
@@ -37,25 +66,7 @@ int cp(const char *file_from, const char *file_to)
 		return (99);
 	}
 
-	while ((bytes_read = read(fd_from, buffer, BUFFER_SIZE)) > 0)
-	{
-		bytes_written = write(fd_to, buffer, bytes_read);
-		if (bytes_written != bytes_read)
-		{
-			print_error("Error: Can't write to %s\n", file_to);
-			close(fd_from);
-			close(fd_to);
-			return (99);
-		}
-	}
-
-	if (bytes_read == -1)
-	{
-		print_error("Error: Can't read from file %s\n", file_from);
-		close(fd_from);
-		close(fd_to);
-		return (98);
-	}
+	ret = copy_file(fd_from, fd_to);
 
 	if (fstat(fd_from, &st) == 0)
 		fchmod(fd_to, st.st_mode &0666);
@@ -73,7 +84,7 @@ int cp(const char *file_from, const char *file_to)
 		return (100);
 	}
 
-	return (0);
+	return (ret);
 }
 
 /**
