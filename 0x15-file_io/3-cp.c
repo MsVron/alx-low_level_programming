@@ -77,7 +77,18 @@ int cp(const char *file_from, const char *file_to)
 	ret = copy_file(fd_from, fd_to);
 
 	if (fstat(fd_from, &st) == 0)
-		fchmod(fd_to, st.st_mode &(S_IRWXU | S_IRWXG | S_IRWXO));
+	{
+		if (fchmod(fd_to, st.st_mode) == -1)
+		{
+			print_error("Error: Can't set file permissions on %s\n", file_to);
+			ret = 100;
+		}
+	}
+	else
+	{
+		print_error("Error: Can't get file permissions from %s\n", file_from);
+		ret = 100;
+	}
 
 	if (close(fd_from) == -1)
 	{
