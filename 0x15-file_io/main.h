@@ -1,5 +1,6 @@
 #ifndef MAIN_H
 #define MAIN_H
+
 #define BUFFER_SIZE 1024
 #define ELF_MAGIC_SIZE 4
 
@@ -39,7 +40,7 @@ void print_elf_header(const char *filename);
  * @e_shnum:     Number of section header table entries
  * @e_shstrndx:  Section header table index of string table
  */
-typedef struct
+typedef struct CustomElf64_Ehdr
 {
 	unsigned char e_ident[ELF_MAGIC_SIZE];
 	uint16_t e_type;
@@ -56,6 +57,5 @@ typedef struct
 	uint16_t e_shnum;
 	uint16_t e_shstrndx;
 } CustomElf64_Ehdr;
-
 
 #endif /* MAIN_H */
