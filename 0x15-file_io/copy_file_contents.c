@@ -1,3 +1,4 @@
+#include "main.h"
 
 /**
  *copy_file_contents - Copies the contents of the source file to the destination file.
