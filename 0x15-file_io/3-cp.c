@@ -1,8 +1,8 @@
 #include "main.h"
 
 /**
- * print_error - Prints an error message to the POSIX standard error.
- * @msg: The error message to print.
+ *print_error - Prints an error message to the POSIX standard error.
+ *@msg: The error message to print.
  */
 void print_error(const char *msg)
 {
@@ -10,11 +10,11 @@ void print_error(const char *msg)
 }
 
 /**
- * cp - Copies the content of a file to another file.
- * @file_from: The source file.
- * @file_to: The destination file.
+ *cp - Copies the content of a file to another file.
+ *@file_from: The source file.
+ *@file_to: The destination file.
  *
- * Return: 0 on success, or the appropriate exit code on failure.
+ *Return: 0 on success, or the appropriate exit code on failure.
  */
 int cp(const char *file_from, const char *file_to)
 {
@@ -29,7 +29,8 @@ int cp(const char *file_from, const char *file_to)
 		return (98);
 	}
 
-	fd_to = open(file_to, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	fd_to = open(file_to, O_WRONLY | O_CREAT | O_TRUNC,
+		S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (fd_to == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file_to);
@@ -58,7 +59,7 @@ int cp(const char *file_from, const char *file_to)
 	}
 
 	if (fstat(fd_from, &st) == 0)
-		fchmod(fd_to, st.st_mode);
+		fchmod(fd_to, st.st_mode &0666);
 
 	if (close(fd_from) == -1)
 	{
@@ -77,11 +78,11 @@ int cp(const char *file_from, const char *file_to)
 }
 
 /**
- * main - Entry point of the program.
- * @argc: The number of command-line arguments.
- * @argv: An array containing the command-line arguments.
+ *main - Entry point of the program.
+ *@argc: The number of command-line arguments.
+ *@argv: An array containing the command-line arguments.
  *
- * Return: 0 on success, or the appropriate exit code on failure.
+ *Return: 0 on success, or the appropriate exit code on failure.
  */
 int main(int argc, char *argv[])
 {
@@ -91,5 +92,5 @@ int main(int argc, char *argv[])
 		return (97);
 	}
 
-	return cp(argv[1], argv[2]);
+	exit(cp(argv[1], argv[2]));
 }
