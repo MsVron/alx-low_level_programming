@@ -23,7 +23,7 @@ int open_source_file(const char *file_from)
 		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", file_from);
 	}
 
-	return fd_from;
+	return (fd_from);
 }
 
 /**
@@ -41,7 +41,7 @@ int open_dest_file(const char *file_to)
 		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file_to);
 	}
 
-	return fd_to;
+	return (fd_to);
 }
 
 /**
