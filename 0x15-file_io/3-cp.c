@@ -10,9 +10,11 @@ void print_error(const char *msg, ...)
 {
 	va_list args;
 	va_start(args, msg);
+
 	vdprintf(STDERR_FILENO, msg, args);
 	va_end(args);
 }
+
 /**
  *copy_file - Copies the content of a file to another file.
  *@fd_from: The source file descriptor.
