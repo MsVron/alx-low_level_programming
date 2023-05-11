@@ -1,12 +1,17 @@
 #include "main.h"
+#include <stdarg.h>
 
 /**
- *print_error - Prints an error message to the POSIX standard error.
- *@msg: The error message to print.
+ * print_error - Prints an error message to the POSIX standard error.
+ * @msg: The error message to print.
+ * @...: Additional arguments for the format string.
  */
-void print_error(const char *msg)
+void print_error(const char *msg, ...)
 {
-	dprintf(STDERR_FILENO, "%s\n", msg);
+	va_list args;
+	va_start(args, msg);
+	vdprintf(STDERR_FILENO, msg, args);
+	va_end(args);
 }
 /**
  *copy_file - Copies the content of a file to another file.
