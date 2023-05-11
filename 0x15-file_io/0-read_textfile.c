@@ -14,17 +14,17 @@ ssize_t read_textfile(const char *filename, size_t letters)
 	ssize_t bytesRead, bytesWritten;
 
 	if (filename == NULL)
-		return 0;
+		return (0);
 
 	file = fopen(filename, "r");
 	if (file == NULL)
-		return 0;
+		return (0);
 
 	buffer = malloc(sizeof(char) * (letters + 1));
 	if (buffer == NULL)
 	{
 		fclose(file);
-		return 0;
+		return (0);
 	}
 
 	bytesRead = fread(buffer, sizeof(char), letters, file);
@@ -32,7 +32,7 @@ ssize_t read_textfile(const char *filename, size_t letters)
 	{
 		fclose(file);
 		free(buffer);
-		return 0;
+		return (0);
 	}
 
 	buffer[bytesRead] = '\0';
@@ -42,11 +42,11 @@ ssize_t read_textfile(const char *filename, size_t letters)
 	{
 		fclose(file);
 		free(buffer);
-		return 0;
+		return (0);
 	}
 
 	fclose(file);
 	free(buffer);
 
-	return bytesRead;
+	return (bytesRead);
 }
