@@ -58,7 +58,8 @@ int cp(const char *file_from, const char *file_to)
 		return (98);
 	}
 
-	fd_to = open(file_to, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	fd_to = open(file_to, O_WRONLY | O_CREAT | O_TRUNC,
+             S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (fd_to == -1)
 	{
 		print_error("Error: Can't write to %s\n", file_to);
