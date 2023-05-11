@@ -21,6 +21,24 @@ int append_text_to_file(const char *filename, char *text_content);
 void print_error(const char *message);
 void print_elf_header(const char *filename);
 
+/**
+ * struct CustomElf64_Ehdr - Custom ELF 64-bit header
+ *
+ * @e_ident:     ELF identification bytes
+ * @e_type:      Object file type
+ * @e_machine:   Architecture
+ * @e_version:   Object file version
+ * @e_entry:     Entry point virtual address
+ * @e_phoff:     Program header table file offset
+ * @e_shoff:     Section header table file offset
+ * @e_flags:     Processor-specific flags
+ * @e_ehsize:    ELF header size in bytes
+ * @e_phentsize: Program header table entry size
+ * @e_phnum:     Number of program header table entries
+ * @e_shentsize: Section header table entry size
+ * @e_shnum:     Number of section header table entries
+ * @e_shstrndx:  Section header table index of string table
+ */
 typedef struct
 {
 	unsigned char e_ident[ELF_MAGIC_SIZE];
