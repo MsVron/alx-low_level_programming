@@ -69,7 +69,7 @@ int cp(const char *file_from, const char *file_to)
 	ret = copy_file(fd_from, fd_to);
 
 	if (fstat(fd_from, &st) == 0)
-		fchmod(fd_to, st.st_mode &0666);
+		fchmod(fd_to, st.st_mode & 0666);
 
 	if (close(fd_from) == -1)
 	{
