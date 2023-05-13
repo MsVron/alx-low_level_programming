@@ -2,6 +2,8 @@
 #define ELF_MAGIC 0x7f454c46
 
 /*
+ *main()
+ *
  *The main() function is the entry point for the program. It parses the command-line arguments, opens the ELF file, reads the ELF header, and prints the ELF header information.
  *
  *Parameters:
@@ -20,7 +22,8 @@ int main(int argc, char *argv[])
 	}
 
 	/*Open the ELF file. */
-	FILE *fp = fopen(argv[1], "rb");
+	FILE * fp;
+	fp = fopen(argv[1], "rb");
 	if (fp == NULL)
 	{
 		/*Print an error message and exit. */
@@ -28,24 +31,22 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	/*Read the ELF header. */
 	unsigned char elf_header[64];
 	if (fread(elf_header, 1, 64, fp) != 64)
 	{
-		/*Print an error message and exit. */
+		/*error */
 		perror("fread");
 		exit(1);
 	}
 
-	/*Check the ELF magic. */
 	if (elf_header[0] != ELF_MAGIC)
 	{
-		/*Print an error message and exit. */
+		/*error msg */
 		fprintf(stderr, "Not an ELF file\n");
 		exit(1);
 	}
 
-	/*Print the ELF header information. */
+	/*ELF header information. */
 	printf("ELF Header:\n");
 	printf("  Magic:   0x%08x\n", elf_header[0] << 24 | elf_header[1] << 16 | elf_header[2] << 8 | elf_header[3]);
 	printf("  Class:                             %d\n", elf_header[4] >> 4);
@@ -56,8 +57,7 @@ int main(int argc, char *argv[])
 	printf("  Type:                              %d\n", elf_header[7]);
 	printf("  Entry point address:               0x%08x\n", elf_header[8] << 24 | elf_header[9] << 16 | elf_header[10] << 8 | elf_header[11]);
 
-	/*Close the ELF file. */
 	fclose(fp);
-	
+
 	return (0);
 }
