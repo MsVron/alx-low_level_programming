@@ -9,20 +9,20 @@ void print_error(const char *message)
 void print_elf_header(const char *filename)
 {
 	int fd = open(filename, O_RDONLY);
-	Elf64_Ehdr elf_header;
-	ssize_t bytes_read = read(fd, &elf_header, sizeof(Elf64_Ehdr));
+	CustomElf64_Ehdr elf_header;
+	ssize_t bytes_read = read(fd, &elf_header, sizeof(CustomElf64_Ehdr));
 	if (fd == -1)
-		print_error("Failed to open the file");
+		print_error(strerror(errno));
 
 	if (bytes_read == -1)
-		print_error("Failed to read the ELF header");
+		print_error(strerror(errno));
 
-	if (bytes_read != sizeof(Elf64_Ehdr))
+	if (bytes_read != sizeof(CustomElf64_Ehdr))
 		print_error("Invalid ELF header");
 
-	/* Check ELF magic */
-	if (elf_header.e_ident[0] != 0x7f || elf_header.e_ident[1] != 'E' ||
-		elf_header.e_ident[2] != 'L' || elf_header.e_ident[3] != 'F')
+	/*Check ELF magic */
+	if (memcmp(elf_header.e_ident, "\x7f"
+			"ELF", ELF_MAGIC_SIZE) != 0)
 		print_error("Not an ELF file");
 
 	printf("Magic:   %c%c%c\n", elf_header.e_ident[1], elf_header.e_ident[2], elf_header.e_ident[3]);
