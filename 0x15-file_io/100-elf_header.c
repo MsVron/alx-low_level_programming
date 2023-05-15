@@ -10,8 +10,10 @@ void display_error(const char *message)
 
 void display_elf_header(const Elf64_Ehdr *header)
 {
+    int i;
+    
     printf("Magic:   ");
-    for (int i = 0; i < EI_NIDENT; i++)
+    for (i = 0; i < EI_NIDENT; i++)
         printf("%02x ", header->e_ident[i]);
     printf("\n");
 
@@ -116,7 +118,9 @@ int main(int argc, char *argv[])
     if (argc != 2)
         display_error("Usage: elf_header elf_filename");
 
-    int fd = open(argv[1], O_RDONLY);
+    int fd;
+    fd = open(argv[1], O_RDONLY);
+    
     if (fd == -1)
         display_error("Error opening file");
 
