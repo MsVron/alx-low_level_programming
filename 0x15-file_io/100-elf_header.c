@@ -11,7 +11,7 @@ void display_error(const char *message)
 void display_elf_header(const Elf64_Ehdr *header)
 {
     int i;
-    Elf64_Ehdr header_data;
+    Elf64_Ehdr header;
     
     printf("Magic:   ");
     for (i = 0; i < EI_NIDENT; i++)
@@ -124,9 +124,7 @@ int main(int argc, char *argv[])
     
     if (fd == -1)
         display_error("Error opening file");
-    
-    Elf64_Ehdr header;
-    
+        
     ssize_t num_read = read(fd, &header, sizeof(header));
     if (num_read != sizeof(header))
         display_error("Error reading ELF header");
