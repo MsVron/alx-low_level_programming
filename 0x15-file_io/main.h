@@ -20,8 +20,7 @@ int create_file(const char *filename, char *text_content);
 int append_text_to_file(const char *filename, char *text_content);
 int copy_file_contents(int fd_from, int fd_to);
 
-void print_error(const char *message);
-void print_elf_header(const char *filename);
+int print_error(int n, char *file);
 
 unsigned long int get_entry_point(unsigned long int ep, int data);
 char *object_type(int o);
