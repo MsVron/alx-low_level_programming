@@ -1,142 +1,192 @@
 #include "main.h"
 
-#define ERROR_EXIT_CODE 98
-
-void display_error(const char *message)
-{
-    fprintf(stderr, "%s\n", message);
-    exit(ERROR_EXIT_CODE);
-}
-
-void display_elf_header(const Elf64_Ehdr *header)
-{
-    int i;
-    Elf64_Ehdr header;
-    
-    printf("Magic:   ");
-    for (i = 0; i < EI_NIDENT; i++)
-        printf("%02x ", header->e_ident[i]);
-    printf("\n");
-
-    printf("Class:                             ");
-    switch (header->e_ident[EI_CLASS])
-    {
-        case ELFCLASS32:
-            printf("ELF32\n");
-            break;
-        case ELFCLASS64:
-            printf("ELF64\n");
-            break;
-        default:
-            printf("<unknown>\n");
-            break;
-    }
-
-    printf("Data:                              ");
-    switch (header->e_ident[EI_DATA])
-    {
-        case ELFDATA2LSB:
-            printf("2's complement, little endian\n");
-            break;
-        case ELFDATA2MSB:
-            printf("2's complement, big endian\n");
-            break;
-        default:
-            printf("<unknown>\n");
-            break;
-    }
-
-    printf("Version:                           %d (current)\n", header->e_ident[EI_VERSION]);
-
-    printf("OS/ABI:                            ");
-    switch (header->e_ident[EI_OSABI])
-    {
-        case ELFOSABI_SYSV:
-            printf("UNIX - System V\n");
-            break;
-        case ELFOSABI_HPUX:
-            printf("UNIX - HP-UX\n");
-            break;
-        case ELFOSABI_NETBSD:
-            printf("UNIX - NetBSD\n");
-            break;
-        case ELFOSABI_LINUX:
-            printf("UNIX - Linux\n");
-            break;
-        case ELFOSABI_SOLARIS:
-            printf("UNIX - Solaris\n");
-            break;
-        case ELFOSABI_IRIX:
-            printf("UNIX - IRIX\n");
-            break;
-        case ELFOSABI_FREEBSD:
-            printf("UNIX - FreeBSD\n");
-            break;
-        case ELFOSABI_TRU64:
-            printf("UNIX - TRU64\n");
-            break;
-        case ELFOSABI_ARM:
-            printf("ARM\n");
-            break;
-        case ELFOSABI_STANDALONE:
-            printf("Standalone App\n");
-            break;
-        default:
-            printf("<unknown>\n");
-            break;
-    }
-
-    printf("ABI Version:                       %d\n", header->e_ident[EI_ABIVERSION]);
-
-    printf("Type:                              ");
-    switch (header->e_type)
-    {
-        case ET_NONE:
-            printf("NONE (No file type)\n");
-            break;
-        case ET_REL:
-            printf("REL (Relocatable file)\n");
-            break;
-        case ET_EXEC:
-            printf("EXEC (Executable file)\n");
-            break;
-        case ET_DYN:
-            printf("DYN (Shared object file)\n");
-            break;
-        case ET_CORE:
-            printf("CORE (Core file)\n");
-            break;
-        default:
-            printf("<unknown>\n");
-            break;
-    }
-
-    printf("Entry point address:               0x%lx\n", header->e_entry);
-}
+/**
+ * main - displays the information contained in the ELF header.
+ * @argc: The number of arguments supplied to the program.
+ * @argv: An array of pointers to the arguments.
+ *
+ * Return: 0 on success.
+ */
 
 int main(int argc, char *argv[])
 {
-    if (argc != 2)
-        display_error("Usage: elf_header elf_filename");
+	int file, i, c, version;
+	ssize_t read_file;
+	Elf64_Ehdr head;
 
-    int fd;
-    fd = open(argv[1], O_RDONLY);
-    
-    if (fd == -1)
-        display_error("Error opening file");
-        
-    ssize_t num_read = read(fd, &header, sizeof(header));
-    if (num_read != sizeof(header))
-        display_error("Error reading ELF header");
+	if (argc != 2)
+		print_error(0, argv[0]);
+	file = open(argv[1], O_RDONLY);
+	if (file == -1)
+		print_error(1, argv[1]);
+	read_file = read(file, &head, sizeof(head));
+	if (read_file == -1)
+	{
+		c = close(file);
+		if (c == -1)
+			print_error(3, argv[1]);
+		print_error(2, argv[1]);
+	}
+	checkfile(head.e_ident, file, argv[1]);
+	printf("ELF Header:\n");
+	printf("  Magic:  ");
+	for (i = 0; i < EI_NIDENT; i++)
+		printf(" %02x", head.e_ident[i]);
+	printf("\n  Class:                             %s\n",
+			(head.e_ident[EI_CLASS] == ELFCLASS32) ? "ELF32" : "ELF64");
+	printf("  Data:                              2's complement, %s endian\n",
+			head.e_ident[EI_DATA] == ELFDATA2LSB ? "little" : "big");
+	version = head.e_ident[EI_VERSION];
+	printf("  Version:                           %d%s\n",
+			version, version == EV_CURRENT ? " (current)" : "");
+	printf("  OS/ABI:                            %s\n",
+			os_abi(head.e_ident[EI_OSABI]));
+	printf("  ABI Version:                       %d\n",
+			head.e_ident[EI_ABIVERSION]);
+	printf("  Type:                              %s\n", object_type(head.e_type));
+	printf("  Entry point address:               %#lx\n",
+			get_entry_point(head.e_entry, head.e_ident[EI_DATA]) & 0xFFFFFFF);
+	c = close(file);
+	if (c < 0)
+		print_error(3, argv[1]);
+	return (0);
+}
 
-    if (header.e_ident[EI_MAG0] != ELFMAG0 || header.e_ident[EI_MAG1] != ELFMAG1 ||
-        header.e_ident[EI_MAG2] != ELFMAG2 || header.e_ident[EI_MAG3] != ELFMAG3)
-    {
-        display_error("File is not an ELF file");
-    }
+/**
+ * print_error - print error to stderr
+ * @num: error num.
+ * @file: error type.
+ *
+ * Return: always 0
+ */
 
-    display_elf_header(&header);
+int print_error(int num, char *file)
+{
+	switch (num)
+	{
+		case 0:
+			dprintf(STDERR_FILENO, "Usage: %s elf_filename\n", file);
+			exit(98);
+			break;
+		case 1:
+			dprintf(STDERR_FILENO, "Can't open file: %s\n", file);
+			exit(98);
+			break;
+		case 2:
+			dprintf(STDERR_FILENO, "Can't read file: %s\n", file);
+			exit(98);
+			break;
+		case 3:
+			dprintf(STDERR_FILENO, "Can't close file: %s\n", file);
+			exit(98);
+			break;
+		default:
+			dprintf(STDERR_FILENO, "Unvalid file format: %s\n", file);
+			exit(98);
+			break;
+	}
+	return (0);
+}
 
-    close(fd);
-    return 0;
+/**
+ * checkfile - check the type of file if it s elf.
+ *
+ * @m: magic number of the file.
+ * @f: file descriptor.
+ * @filename: name of file.
+ *
+ * Return: 0
+ */
+int checkfile(unsigned char *m, int f, char *filename)
+{
+	int c;
+
+	if (!(m[0] == 0x7f && m[1] == 'E' && m[2] == 'L' && m[3] == 'F'))
+	{
+		c = close(f);
+		if (c < 0)
+			print_error(3, filename);
+		print_error(4, filename);
+	}
+	return (0);
+}
+
+/**
+ * os_abi - return one of The eighth byte
+ * identifies the operating system and ABI to which  the  object  is targeted.
+ *
+ * @oa: EI_OSABI value to check.
+ *
+ * Return:
+ *	- OS and ABI
+ */
+
+char *os_abi(int oa)
+{
+	switch (oa)
+	{
+		case ELFOSABI_NONE || ELFOSABI_SYSV:
+			return ("UNIX - System V");
+		case ELFOSABI_HPUX:
+			return ("UNIX - HP-UX");
+		case ELFOSABI_NETBSD:
+			return ("UNIX - NetBSD");
+		case ELFOSABI_LINUX:
+			return ("UNIX - Linux");
+		case ELFOSABI_SOLARIS:
+			return ("UNIX - Solaris");
+		case ELFOSABI_IRIX:
+			return ("UNIX - IRIX");
+		case ELFOSABI_FREEBSD:
+			return ("UNIX - FreeBSD");
+		case ELFOSABI_TRU64:
+			return ("UNIX - TRU64");
+		case ELFOSABI_ARM:
+			return ("UNIX - ARM");
+		case ELFOSABI_STANDALONE:
+			return ("UNIX - Stand-alone (embedded)");
+		default:
+			return ("<unknown: 53>");
+	}
+}
+
+/**
+ * object_type - return the object file type
+ *
+ * @o: object type id.
+ *
+ * Return: object file type
+ */
+char *object_type(int o)
+{
+	switch (o)
+	{
+		case ET_NONE:
+			return ("NONE (Unknown type)");
+		case ET_REL:
+			return ("REL (Relocatable file)");
+		case ET_DYN:
+			return ("DYN (Shared object file)");
+		case ET_CORE:
+			return ("core file");
+		default:
+			return ("EXEC (Executable file)");
+	}
+}
+
+/**
+ * get_entry_point - right value of the entry point value for big/little endian
+ *
+ * @ep: Entry point value.
+ * @data: Data type.
+ *
+ * Return: value of Entry point.
+ */
+
+unsigned long int get_entry_point(unsigned long int ep, int data)
+{
+	if (data != ELFDATA2LSB)
+		ep = (ep >> 24) | ((ep >> 8) & 0xFF00) |
+			((ep << 8) & 0xFF0000) | (ep << 24);
+	return (ep);
 }
