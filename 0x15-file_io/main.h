@@ -23,6 +23,11 @@ int copy_file_contents(int fd_from, int fd_to);
 void print_error(const char *message);
 void print_elf_header(const char *filename);
 
+unsigned long int get_entry_point(unsigned long int ep, int data);
+char *object_type(int o);
+char *os_abi(int oa);
+int checkfile(unsigned char *m, int f, char *filename);
+
 /**
  * struct CustomElf64_Ehdr - Custom ELF 64-bit header
  *
