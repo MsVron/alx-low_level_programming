@@ -6,9 +6,9 @@
  *@n:The data integer
  *Return: The new node
  */
-dlistint_t* add_dnodeint(dlistint_t **head, const int n)
+dlistint_t *add_dnodeint(dlistint_t **head, const int n)
 {
-	dlistint_t * new_mem;
+	dlistint_t *new_mem;
 
 	new_mem = malloc(sizeof(dlistint_t));
 
