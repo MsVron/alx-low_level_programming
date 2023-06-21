@@ -12,7 +12,7 @@ int _islower(int c) {
 }
 
 int _isalpha(int c) {
-    return (_islower(c) || _isupper(c));
+    return (_islower(c) || isupper(c));  // Use isupper from ctype.h
 }
 
 int _abs(int n) {
@@ -20,7 +20,7 @@ int _abs(int n) {
 }
 
 int _isupper(int c) {
-    return c >= 'A' && c <= 'Z';
+    return isupper(c);  // Use isupper from ctype.h
 }
 
 int _isdigit(int c) {
