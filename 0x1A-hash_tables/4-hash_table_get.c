@@ -1,7 +1,8 @@
-include "main.h"
+#include "main.h"
 
 /**
- * hash_table_get - Retrieves the value associated with a given key in a hash table
+ * hash_table_get - Retrieves the value associated
+ * with a given key in a hash table
  * @ht: The hash table
  * @key: The key to search for
  *
@@ -14,7 +15,7 @@ char *hash_table_get(const hash_table_t *ht, const char *key)
 
 	/* Check if hash table or key is NULL, or key is an empty string */
 	if (ht == NULL || key == NULL || strcmp(key, "") == 0)
-		return NULL;
+		return (NULL);
 
 	/* Get the index for the key */
 	index = key_index((const unsigned char *)key, ht->size);
@@ -24,9 +25,9 @@ char *hash_table_get(const hash_table_t *ht, const char *key)
 	while (node != NULL)
 	{
 		if (strcmp(node->key, key) == 0)
-			return node->value;
+			return (node->value);
 		node = node->next;
 	}
 
-	return NULL;
+	return (NULL);
 }
