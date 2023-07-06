@@ -10,21 +10,21 @@
  *Return: A pointer to the created hash table, or NULL on failure
  */
 
-shash_table_t* shash_table_create(unsigned long int size)
+shash_table_t *shash_table_create(unsigned long int size)
 {
 	shash_table_t *ht = malloc(sizeof(shash_table_t));
 	if (ht == NULL)
 		return (NULL);
 
 	ht->size = size;
-	ht->array = malloc(size* sizeof(shash_node_t*));
+	ht->array = malloc(size * sizeof(shash_node_t *));
 	if (ht->array == NULL)
 	{
 		free(ht);
 		return (NULL);
 	}
 
-	memset(ht->array, 0, size* sizeof(shash_node_t*));
+	memset(ht->array, 0, size * sizeof(shash_node_t *));
 	ht->shead = NULL;
 	ht->stail = NULL;
 
@@ -68,6 +68,7 @@ int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 	}
 
 	shash_node_t *new_node = malloc(sizeof(shash_node_t));
+
 	if (new_node == NULL)
 		return (0);
 
@@ -119,6 +120,7 @@ char *shash_table_get(const shash_table_t *ht, const char *key)
 	while (node != NULL)
 	{
 		int cmp = strcmp(node->key, key);
+
 		if (cmp == 0)
 			return (node->value);
 		else if (cmp > 0)
