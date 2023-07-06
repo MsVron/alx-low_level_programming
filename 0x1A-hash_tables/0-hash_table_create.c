@@ -7,7 +7,7 @@
  *Return: A pointer to the newly created hash table,
  *        or NULL if an error occurred
  */
-hash_table_t* hash_table_create(unsigned long int size)
+hash_table_t *hash_table_create(unsigned long int size)
 {
 	hash_table_t *hash_table = NULL;
 	unsigned long int i;
@@ -18,7 +18,7 @@ hash_table_t* hash_table_create(unsigned long int size)
 		return (NULL);
 
 	/*Allocate memory for the array of size 'size' */
-	hash_table->array = malloc(sizeof(hash_node_t*) *size);
+	hash_table->array = malloc(sizeof(hash_node_t *) * size);
 	if (hash_table->array == NULL)
 	{
 		free(hash_table);
