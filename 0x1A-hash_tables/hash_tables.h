@@ -50,7 +50,7 @@ shash_table_t;
  *
  *Return: A pointer to the created hash table, or NULL on failure
  */
-shash_table_t* shash_table_create(unsigned long int size);
+shash_table_t* hash_table_create(unsigned long int size);
 
 /**
  *shash_table_set - Adds an element to the sorted hash table
