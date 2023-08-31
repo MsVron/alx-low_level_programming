@@ -1,7 +1,5 @@
-# Variables
-CC = gcc # Compiler
-SRC = main.c utils.c other.c  # $(wildcard *.c) is forbidden
+CC = gcc
+SRC = main.c school.c #$(wildcard *.c) is forbidden
 
-# Rule for building the executable
 all:
 	$(CC) $(SRC) -o school
