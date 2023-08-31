@@ -16,7 +16,8 @@ def island_perimeter(grid):
     :rtype: int
     """
 
-    # Helper function to determine if a cell is within grid bounds and if it's water
+    # Helper function to determine if a cell is within grid bounds
+    # and if it's water
     def is_out_of_bounds_or_water(row, col):
         if row < 0 or row >= len(grid) or col < 0 or col >= len(grid[0]):
             return True
@@ -33,3 +34,7 @@ def island_perimeter(grid):
                 perimeter += is_out_of_bounds_or_water(i, j+1) # right
 
     return perimeter
+
+#This solution iterates over the grid once, with a constant
+# amount of work done for each cell, so the time complexity is
+# O(m×n) where m and n are the dimensions of the grid.
