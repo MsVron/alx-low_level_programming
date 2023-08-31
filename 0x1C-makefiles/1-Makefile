@@ -3,5 +3,5 @@ CC = gcc # Compiler
 SRC = main.c utils.c other.c  # $(wildcard *.c) is forbidden
 
 # Rule for building the executable
-all: $(SRC)
+all:
 	$(CC) $(SRC) -o school
