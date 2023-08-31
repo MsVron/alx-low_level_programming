@@ -18,6 +18,8 @@ def island_perimeter(grid):
 
     # Helper function to determine if a cell is within grid bounds
     # and if it's water
+
+
     def is_out_of_bounds_or_water(row, col):
         if row < 0 or row >= len(grid) or col < 0 or col >= len(grid[0]):
             return True
@@ -28,10 +30,25 @@ def island_perimeter(grid):
         for j in range(len(grid[0])):
             if grid[i][j] == 1:
                 # Check each of the four sides
-                perimeter += is_out_of_bounds_or_water(i-1, j) # top
-                perimeter += is_out_of_bounds_or_water(i+1, j) # bottom
-                perimeter += is_out_of_bounds_or_water(i, j-1) # left
-                perimeter += is_out_of_bounds_or_water(i, j+1) # right
+                # top
+
+
+                perimeter += is_out_of_bounds_or_water(i-1, j)
+
+                # bottom
+
+
+                perimeter += is_out_of_bounds_or_water(i+1, j)
+
+                # left
+
+
+                perimeter += is_out_of_bounds_or_water(i, j-1)
+
+                # right
+
+
+                perimeter += is_out_of_bounds_or_water(i, j+1)
 
     return perimeter
 
