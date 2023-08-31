@@ -5,6 +5,7 @@ This module contains a function that calculates the perimeter of an island
 represented by a 2D grid.
 """
 
+
 def island_perimeter(grid):
     """
     Calculate the perimeter of the island described in the grid.
@@ -18,7 +19,6 @@ def island_perimeter(grid):
 
     # Helper function to determine if a cell is within grid bounds
     # and if it's water
-
 
     def is_out_of_bounds_or_water(row, col):
         if row < 0 or row >= len(grid) or col < 0 or col >= len(grid[0]):
