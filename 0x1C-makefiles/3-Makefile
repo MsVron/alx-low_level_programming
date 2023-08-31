@@ -6,10 +6,7 @@ NAME = school # Name of the executable
 RM = rm -f # Program/command to delete files
 
 # Default rule: all
-all: $(NAME)
-
-# Rule to build the executable
-$(NAME): $(OBJ)
+all: $(OBJ)
 	$(CC) $(OBJ) -o $(NAME)
 
 # Rule for object files compilation
