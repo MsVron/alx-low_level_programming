@@ -1,0 +1,16 @@
+# Set the compiler to be used
+CC = gcc
+
+# List of source files
+SRC = main.c school.c
+
+# Convert source file names (.c) to object file names (.o)
+OBJ = $(SRC:.c=.o)
+
+# Name of the final executable
+NAME = school
+
+# Default target 'all'. It first ensures all .o files are built and then links them to create the executable
+all: $(OBJ)
+	# Compile and link object files to produce the final executable
+	$(CC) $(OBJ) -o $(NAME)
