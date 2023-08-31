@@ -32,26 +32,21 @@ def island_perimeter(grid):
                 # Check each of the four sides
                 # top
 
-
                 perimeter += is_out_of_bounds_or_water(i-1, j)
 
                 # bottom
-
 
                 perimeter += is_out_of_bounds_or_water(i+1, j)
 
                 # left
 
-
                 perimeter += is_out_of_bounds_or_water(i, j-1)
 
                 # right
 
-
                 perimeter += is_out_of_bounds_or_water(i, j+1)
 
     return perimeter
-
-#This solution iterates over the grid once, with a constant
+# This solution iterates over the grid once, with a constant
 # amount of work done for each cell, so the time complexity is
 # O(m×n) where m and n are the dimensions of the grid.
