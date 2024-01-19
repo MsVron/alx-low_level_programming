@@ -1,0 +1,6 @@
+{
+	"files.associations": {
+		"*.twig": "html",
+		"search_algos.h": "c"
+	}
+}
