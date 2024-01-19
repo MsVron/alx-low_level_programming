@@ -3,7 +3,24 @@
 
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <math.h>
+
+/**
+ * struct listint_s - singly linked list
+ *
+ * @n: Integer
+ * @index: Index of the node in the list
+ * @next: Pointer to the next node
+ *
+ * Description: singly linked list node structure
+ */
+typedef struct listint_s
+{
+    int n;
+    size_t index;
+    struct listint_s *next;
+} listint_t;
 
 /* Function prototypes */
 int linear_search(int *array, size_t size, int value);
@@ -16,5 +33,6 @@ int binary_search1(int *array, size_t low, size_t high, int value, size_t mid);
 void print_subarray(int *array, size_t low, size_t high);
 int advanced_binary_recursive(int *array, size_t low, size_t high, int value);
 int advanced_binary(int *array, size_t size, int value);
+listint_t *jump_list(listint_t *list, size_t size, int value);
 
 #endif /* SEARCH_ALGOS_H */
